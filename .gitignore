@@ -1,0 +1,14 @@
+*.log*
+*.pot
+*.pyc
+__pycache__/
+media
+migrations
+.env
+.venv/
+.vscode/
+.well-known/
+.python-version
+db.sqlite3
+redis_data/*
+.DS_Store

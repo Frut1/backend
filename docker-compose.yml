@@ -1,0 +1,47 @@
+
+services:
+  # Django 애플리케이션 (기존 Dockerfile 사용)
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: web
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - uv-cache:/root/.cache/uv  # uv 캐시 볼륨
+    env_file:
+      - .env  # 환경변수 파일에서 로드
+    depends_on:
+      - mysql_service
+      - redis_service
+    restart: unless-stopped
+
+  # MySQL 데이터베이스
+  mysql_service:
+    image: mysql:8.0
+    container_name: mysql_service
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env  # MySQL 설정도 .env 파일에서 로드
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+
+  # Redis (기존 설정 유지)
+  redis_service:
+    image: redis:latest
+    container_name: redis_service
+    ports:
+      - "6378:6379"
+    volumes:
+      - redis_data:/data  # Docker 관리 볼륨 사용
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  redis_data:
+  uv-cache:
