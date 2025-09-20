@@ -17,7 +17,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # 의존성 파일 복사 및 설치
 COPY pyproject.toml uv.lock* ./
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen
 
 # 가상환경을 시스템 PATH에 추가 (핵심!)
 ENV PATH="/app/.venv/bin:$PATH"
@@ -31,5 +31,5 @@ EXPOSE 8000
 ENV PYTHONPATH=/app
 ENV DJANGO_SETTINGS_MODULE=config.settings
 
-# 이제 python 명령어가 가상환경의 python을 사용
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# uv run으로 가상환경 자동 활성화
+CMD ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
