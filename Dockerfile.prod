@@ -1,4 +1,4 @@
-# Django 프로젝트용 Dockerfile with uv
+# Django 프로덕션용 Dockerfile with uv
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -15,11 +15,13 @@ RUN apt-get update && apt-get install -y \
 # uv 설치
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-# 의존성 파일 복사 및 설치
+# 의존성 파일 복사
 COPY pyproject.toml uv.lock* ./
-RUN uv sync --frozen
 
-# 가상환경을 시스템 PATH에 추가 (핵심!)
+# 프로덕션 의존성 설치 (dev 의존성 제외)
+RUN uv sync --frozen --no-dev
+
+# 가상환경을 시스템 PATH에 추가
 ENV PATH="/app/.venv/bin:$PATH"
 ENV VIRTUAL_ENV="/app/.venv"
 
@@ -29,7 +31,7 @@ COPY . .
 EXPOSE 8000
 
 ENV PYTHONPATH=/app
-ENV DJANGO_SETTINGS_MODULE=config.settings.dev
+ENV DJANGO_SETTINGS_MODULE=config.settings.prod
 
-# uv run으로 가상환경 자동 활성화
-CMD ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Gunicorn으로 실행 (절대 경로 사용)
+CMD ["/app/.venv/bin/gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]

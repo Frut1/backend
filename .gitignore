@@ -2,9 +2,9 @@
 *.pot
 *.pyc
 __pycache__/
-media
+media/
 migrations
-.env
+.env.*
 .venv/
 .vscode/
 .well-known/
@@ -12,3 +12,5 @@ migrations
 db.sqlite3
 redis_data/*
 .DS_Store
+.claude
+credentials/

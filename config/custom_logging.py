@@ -3,7 +3,7 @@ import logging
 import logging.handlers  # handlers 모듈을 명시적으로 import
 import os
 import stat
-from config.settings import BASE_DIR
+from config.settings.base import BASE_DIR
 
 # 로그 디렉토리 설정
 LOG_DIR = os.path.join(BASE_DIR, 'log')
