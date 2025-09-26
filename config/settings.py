@@ -188,6 +188,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # 각 media file에 대한 URL prefix
 MEDIA_URL = '/media/'
 
+# GCP Storage 설정
+GCS_BUCKET_NAME = env('GCS_BUCKET_NAME', default='frut-storage')
+GCS_PROJECT_ID = env('GCS_PROJECT_ID', default='')
+GCS_CREDENTIALS_PATH = env('GCS_CREDENTIALS_PATH', default='')
+GCS_DEFAULT_ACL = env('GCS_DEFAULT_ACL', default='publicRead')
+GCS_FILE_OVERWRITE = env('GCS_FILE_OVERWRITE', default=True)
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',),
