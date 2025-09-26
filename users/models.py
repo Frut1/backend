@@ -16,9 +16,9 @@ class SnsTypeChoices(models.TextChoices):
 
 
 class UserStatusChoices(models.TextChoices):
-    ACTIVE = 'ACTIVE', '활성 상태'
-    WITHDRAWN = 'WITHDRAWN', '탈퇴 상태'
-    BLOCKED = 'BLOCKED', '차단 상태'
+    ACTIVE = 'ACTIVE', '활성'
+    WITHDRAWN = 'WITHDRAWN', '탈퇴'
+    BLOCKED = 'BLOCKED', '차단'
 
 
 class User(AbstractUser, BaseModel):
