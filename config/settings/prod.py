@@ -93,7 +93,7 @@ LOGGING = {
         },
         'file': {
             'class': 'logging.FileHandler',
-            'filename': '/app/logs/django.log',
+            'filename': '/app/log/django.log',
             'formatter': 'verbose',
         },
     },
